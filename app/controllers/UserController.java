@@ -6,13 +6,13 @@ import models.*;
 import views.html.*;
 
 public class UserController extends Controller {
-	
+
 	static Form<User> userForm = Form.form(User.class);
-	
+
 	public static Result showForm() {
 		return ok(main.render("Register user", null, user_view.render(userForm)));
 	}
-	
+
 	public static Result newUser() {
 		Form<User> filledForm = userForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
@@ -23,7 +23,7 @@ public class UserController extends Controller {
 			return redirect(routes.UserController.showForm());
 		}
 	}
-	
+
 	@Security.Authenticated(Secured.class)
 	public static Result deleteAccount() {
 		User user = User.fetch(session().get("username"));

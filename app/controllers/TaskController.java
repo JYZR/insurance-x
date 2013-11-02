@@ -11,7 +11,7 @@ import views.html.*;
 public class TaskController extends Controller {
 
 	static Form<Task> taskForm = Form.form(Task.class);
-	
+
 	public static User loadUser() {
 		return User.fetch(session().get("username"));
 	}

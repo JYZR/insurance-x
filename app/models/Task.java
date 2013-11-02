@@ -14,16 +14,19 @@ public class Task extends Model {
 	public Long id;
 	@Required
 	public String label;
-	//@ManyToOne
 	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
 	public User owner;
+
+	/*
+	 * Static methods
+	 */
 
 	public static Finder<Long, Task> find = new Finder<Long, Task>(Long.class, Task.class);
 
 	public static Task fetch(Long id) {
 		return find.byId(id);
 	}
-	
+
 	public static void delete(Long id) {
 		find.byId(id).delete();
 	}
