@@ -1,15 +1,87 @@
-@(title: String)(content: Html)
+@(title: String = null, form: play.data.Form[LoginController.Login] = null)(content: Html)
+
+@username() = {
+	@session().get("username")
+}
 
 <!DOCTYPE html>
-
 <html>
-    <head>
-        <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
-    </head>
-    <body>
-        @content
-    </body>
+	<head>
+		<title>Insurance X@if(title != null) { | @title}</title>
+		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
+		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-theme.css")">
+		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+		<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/x-favicon.png")">
+		<script src="@routes.Assets.at("javascripts/jquery-1.10.2.min.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="@routes.Application.index">Insurance X</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					@if(form != null || !Application.userExists()) {
+						@helper.form(routes.LoginController.authenticate, args = 'class -> "navbar-form navbar-right") {
+							<div class="form-group">
+								<input type="text" name="username" placeholder="Username" class="form-control" @if(form != null) {value="@form("username").value}">
+							</div>
+							<div class="form-group">
+								<input type="password" name="password" placeholder="Password" class="form-control">
+							</div>
+							<button type="submit" class="btn btn-success">Sign in</button>
+						}
+					} else {
+						@helper.form(routes.UserController.deleteAccount, args = 'class -> "navbar-form navbar-right") {
+							<button type="submit" class="btn btn-danger navbar-right">Delete account</button>
+						}
+						@helper.form(routes.LoginController.logout, args = 'class -> "navbar-form navbar-right") {
+							<button type="submit" class="btn btn-warning navbar-right">Sign out</button>
+						}
+						<p class="navbar-text navbar-right">Signed in as @username</p>
+					}
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="@routes.TaskController.tasks">Tasks</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="@routes.UserController.showForm">Create users</a></li>
+								<!-- <li class="divider"></li> -->
+							</ul>
+						</li>
+					</ul>
+				</div><!-- .navbar-collapse -->
+			</div>
+		</div>
+		<div id="content" class="container">
+			@if(form != null && form.hasGlobalErrors) {
+				<div class="alert alert-warning alert-dismissable alert-above-jumbotron">
+	  				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	  				<strong>Problems!</strong> Wrong combination of username and password. 
+				</div>
+			}
+			@if(flash.contains("success")) {
+				<div class="alert alert-info alert-dismissable alert-above-jumbotron">
+  					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	  				<strong>Great!</strong> @flash.get("success") 
+				</div>
+			}
+			@if(flash.contains("error")) {
+				<div class="alert alert-danger alert-dismissable alert-above-jumbotron">
+  					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+	  				<strong>Problems!</strong> @flash.get("error") 
+				</div>
+			}
+			@content
+		</div>
+		<footer>
+		</footer>
+	</body>
 </html>

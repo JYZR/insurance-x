@@ -1,0 +1,23 @@
+- !!models.User
+    username:   jimmy
+    password:   secret
+- !!models.User
+    username:   jeppe
+    password:   secret
+- !!models.Task
+    label:      Buy milk!!!
+    owner:
+        !!models.User
+        username:   jimmy
+- !!models.Task
+    label:      Buy milk Jeppe!!!
+    owner:
+        !!models.User
+        username:   jeppe
+- !!models.Project
+    name:       Test Project
+    members:
+    - !!models.User
+        username:   jimmy
+    - !!models.User
+        username:   jeppe

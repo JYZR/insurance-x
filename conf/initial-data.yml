@@ -1,0 +1,33 @@
+- !!models.User
+    username:   jimmy
+    password:   pwd
+- !!models.User
+    username:   jeppe
+    password:   pwd
+
+- !!models.Task
+    label:      Buy milk!
+    owner:
+        !!models.User
+        username:   jimmy
+- !!models.Task
+    label:      Buy cheese!
+    owner:
+        !!models.User
+        username:   jimmy
+- !!models.Task
+    label:      Get a life!
+    owner:
+        !!models.User
+        username:   jimmy
+
+- !!models.Task
+    label:      Get up!
+    owner:
+        !!models.User
+        username:   jeppe
+- !!models.Task
+    label:      Just do it!
+    owner:
+        !!models.User
+        username:   jeppe

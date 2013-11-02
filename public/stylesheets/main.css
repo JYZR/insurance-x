@@ -1,0 +1,16 @@
+body {
+	padding-top: 50px;
+}
+
+.alert-above-jumbotron {
+	margin-top: 20px;
+}
+
+.tasks-list dl dt {
+	width: 15px;
+	float: left;
+	clear: left;
+}
+.tasks-list dl dd {
+	margin-left: 30px;
+}

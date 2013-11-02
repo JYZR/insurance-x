@@ -2,38 +2,43 @@ package controllers;
 
 import play.*;
 import play.mvc.*;
-
+import play.mvc.Security.Authenticated;
 import play.data.*;
 import models.*;
-
 import views.html.*;
 
-
+@Authenticated(Secured.class)
 public class TaskController extends Controller {
-  
-  static Form<Task> taskForm = Form.form(Task.class);
 
-  public static Result tasks() {
-    return ok(
-      views.html.tasks.render(Task.all(), taskForm)
-    );
-  }
-  
-  public static Result newTask() {
-    Form<Task> filledForm = taskForm.bindFromRequest();
-    if(filledForm.hasErrors()) {
-      return badRequest(
-        views.html.tasks.render(Task.all(), filledForm)
-      );
-    } else {
-      Task.create(filledForm.get());
-      return redirect(routes.TaskController.tasks());  
-    }
-  }
-  
-  public static Result deleteTask(Long id) {
-    Task.delete(id);
-    return redirect(routes.TaskController.tasks());
-  }
-  
+	static Form<Task> taskForm = Form.form(Task.class);
+	
+	static User user;
+	
+	public static void loadUser() {
+		user = User.fetch(session().get("username"));
+	}
+
+	public static Result tasks() {
+		loadUser();
+		return ok(main.render("Tasks", null, views.html.tasks.render(user.tasks, taskForm)));
+	}
+
+	public static Result newTask() {
+		loadUser();
+		Form<Task> filledForm = taskForm.bindFromRequest();
+		if (filledForm.hasErrors()) {
+			flash("error", "The task could not be saved.");
+			return badRequest(main.render("Tasks", null, tasks.render(user.tasks, filledForm)));
+		} else {
+			Task task = filledForm.get();
+			task.owner = user;
+			task.save();
+			return redirect(routes.TaskController.tasks());
+		}
+	}
+
+	public static Result deleteTask(Long id) {
+		Task.delete(id);
+		return redirect(routes.TaskController.tasks());
+	}
 }
