@@ -13,4 +13,5 @@ body {
 }
 .tasks-list dl dd {
 	margin-left: 30px;
+	line-height: 1.8;
 }
