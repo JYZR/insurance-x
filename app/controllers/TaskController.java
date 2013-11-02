@@ -12,19 +12,17 @@ public class TaskController extends Controller {
 
 	static Form<Task> taskForm = Form.form(Task.class);
 	
-	static User user;
-	
-	public static void loadUser() {
-		user = User.fetch(session().get("username"));
+	public static User loadUser() {
+		return User.fetch(session().get("username"));
 	}
 
 	public static Result tasks() {
-		loadUser();
+		User user = loadUser();
 		return ok(main.render("Tasks", null, views.html.tasks.render(user.tasks, taskForm)));
 	}
 
 	public static Result newTask() {
-		loadUser();
+		User user = loadUser();
 		Form<Task> filledForm = taskForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
 			flash("error", "The task could not be saved.");
