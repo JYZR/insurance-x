@@ -14,7 +14,7 @@ public class Task extends Model {
 	public Long id;
 	@Required
 	public String label;
-	@ManyToOne(cascade = CascadeType.REMOVE, optional = false)
+	@ManyToOne(optional = false)
 	public User owner;
 
 	/*
