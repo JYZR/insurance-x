@@ -1,6 +1,5 @@
 package controllers;
 
-import play.*;
 import play.mvc.*;
 import play.mvc.Security.Authenticated;
 import play.data.*;
@@ -18,7 +17,7 @@ public class TaskController extends Controller {
 
 	public static Result tasks() {
 		User user = loadUser();
-		return ok(main.render("Tasks", null, views.html.tasks.render(user.tasks, taskForm)));
+		return ok(main.render("Tasks", null, tasks.render(user.tasks, taskForm)));
 	}
 
 	public static Result newTask() {
@@ -31,7 +30,7 @@ public class TaskController extends Controller {
 			Task task = filledForm.get();
 			task.owner = user;
 			task.save();
-			return redirect(routes.TaskController.tasks());
+			return created(main.render("Tasks", null, tasks.render(user.tasks, taskForm)));
 		}
 	}
 

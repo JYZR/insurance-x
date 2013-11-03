@@ -1,7 +1,7 @@
-- !!models.User
+- !!models.EmployeeUser
     username:   jimmy
     password:   pwd
-- !!models.User
+- !!models.EmployeeUser
     username:   jeppe
     password:   pwd
 
@@ -31,3 +31,12 @@
     owner:
         !!models.User
         username:   jeppe
+
+- !!models.CustomerUser
+    username:   carl
+    password:   pwd
+- !!models.Insurance
+    level:      Basic
+    customer:
+        !!models.CustomerUser
+        username:   carl
