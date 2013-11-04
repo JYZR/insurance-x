@@ -2,8 +2,11 @@ package models;
 
 import java.util.List;
 
+import play.mvc.Http.Context;
+
 import javax.persistence.*;
 
+import play.data.validation.Constraints.Required;
 import play.db.ebean.*;
 
 @Entity
@@ -13,6 +16,7 @@ import play.db.ebean.*;
 public class User extends Model {
 
 	@Id
+	@Required
 	public String username;
 	public String password;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
@@ -26,6 +30,7 @@ public class User extends Model {
 	public String getType() {
 		return getClass().getSimpleName();
 	}
+
 
 	/*
 	 * Static methods
@@ -52,4 +57,9 @@ public class User extends Model {
 	public static final String USER = "0";
 	public static final String EMPLOYEE = "1";
 	public static final String CUSTOMER = "2";
+
+	public static boolean isEmployee(Context ctx) {
+		return ctx.args.get("type") == "employee";
+	}
+
 }

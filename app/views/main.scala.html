@@ -1,5 +1,7 @@
 @(title: String = null, form: play.data.Form[LoginController.Login] = null)(content: Html)
 
+@import controllers.actions.DetectUser;
+
 @username() = {
 	@session().get("username")
 }
@@ -28,7 +30,15 @@
 					<a class="navbar-brand" href="@routes.Application.index">Insurance X</a>
 				</div>
 				<div class="navbar-collapse collapse">
-					@if(form != null || !Application.userExists()) {
+					@if(DetectUser.isPresent(ctx())) {
+						@helper.form(routes.UserController.deleteAccount, args = 'class -> "navbar-form navbar-right") {
+							<button type="submit" class="btn btn-danger navbar-right">Delete account</button>
+						}
+						@helper.form(routes.LoginController.logout, args = 'class -> "navbar-form navbar-right") {
+							<button type="submit" class="btn btn-warning navbar-right">Sign out</button>
+						}
+						<p class="navbar-text navbar-right">Signed in as @username</p>
+					} else { @if(form != null) {
 						@helper.form(routes.LoginController.authenticate, args = 'class -> "navbar-form navbar-right") {
 							<div class="form-group">
 								<input type="text" name="username" placeholder="Username" class="form-control" @if(form != null) {value="@form("username").value}">
@@ -38,15 +48,7 @@
 							</div>
 							<button type="submit" class="btn btn-success">Sign in</button>
 						}
-					} else {
-						@helper.form(routes.UserController.deleteAccount, args = 'class -> "navbar-form navbar-right") {
-							<button type="submit" class="btn btn-danger navbar-right">Delete account</button>
-						}
-						@helper.form(routes.LoginController.logout, args = 'class -> "navbar-form navbar-right") {
-							<button type="submit" class="btn btn-warning navbar-right">Sign out</button>
-						}
-						<p class="navbar-text navbar-right">Signed in as @username</p>
-					}
+					} }
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="@routes.TaskController.tasks">Tasks</a></li>
 						<li class="dropdown">

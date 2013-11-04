@@ -1,24 +1,21 @@
 package controllers;
 
+import controllers.actions.DetectUser;
+import controllers.authentication.*;
 import models.User;
-import controllers.LoginController.Login;
-import play.*;
-import play.data.Form;
 import play.mvc.*;
+import play.mvc.Security.Authenticated;
 import views.html.*;
+
 
 public class Application extends Controller {
 
-	public static boolean userExists() {
-		String username = session().get("username");
-		return username != null && User.fetch(username) != null;
-	}
-
+	@With(DetectUser.class)
+	@Authenticated(UserAuthenticator.class)
 	public static Result index() {
-		if (userExists())
-			return redirect(routes.TaskController.tasks());
-		return ok(main.render(null, Form.form(Login.class), index.render()));
-
+		if (User.isEmployee(ctx()))
+			return redirect(routes.EmployeeController.start());
+		return redirect(routes.TaskController.tasks());
 	}
 
 	public static Result welcome() {

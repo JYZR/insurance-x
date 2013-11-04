@@ -1,22 +1,27 @@
 package controllers;
 
+import controllers.actions.*;
+import controllers.authentication.*;
 import play.mvc.*;
 import play.data.*;
 import models.*;
-import views.html.*;
+import views.html.main;
 
+@With(DetectUser.class)
 public class UserController extends Controller {
 
 	static Form<User> userForm = Form.form(User.class);
 
 	public static Result showForm() {
-		return ok(main.render("Users", null, user_view.render(userForm, EmployeeUser.allEmployees(), CustomerUser.allCustomers())));
+		return ok(main.render("Users", null, views.html.administration.users.render(userForm,
+				EmployeeUser.allEmployees(), CustomerUser.allCustomers())));
 	}
 
 	public static Result newUser() {
 		Form<User> filledForm = userForm.bindFromRequest();
 		if (filledForm.hasErrors()) {
-			return badRequest(main.render("Register user", null, user_view.render(filledForm, EmployeeUser.allEmployees(), CustomerUser.allCustomers())));
+			return badRequest(main.render("Register user", null, views.html.administration.users
+					.render(filledForm, EmployeeUser.allEmployees(), CustomerUser.allCustomers())));
 		} else {
 			User.create(filledForm.get());
 			flash("success", "The user have been registered.");
@@ -24,9 +29,9 @@ public class UserController extends Controller {
 		}
 	}
 
-	@Security.Authenticated(Secured.class)
+	@Security.Authenticated(UserAuthenticator.class)
 	public static Result deleteAccount() {
-		User user = User.fetch(session().get("username"));
+		User user = (User) ctx().args.get("user");
 		user.delete();
 		session().clear();
 		flash("success", "The account have been deleted.");

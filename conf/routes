@@ -10,7 +10,7 @@ GET     /welcome                    controllers.Application.welcome()
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 # Login
-GET     /login                      controllers.Application.index()
+GET     /login                      controllers.LoginController.login()
 POST    /login                      controllers.LoginController.authenticate()
 POST    /logout                     controllers.LoginController.logout()
 
@@ -24,3 +24,8 @@ GET     /users                      controllers.UserController.showForm()
 POST    /users                      controllers.UserController.newUser()
 POST    /users/delete               controllers.UserController.deleteAccount()
 POST    /users/:username/delete     controllers.UserController.removeUser(username: String)
+
+# Employee
+GET     /employee/start             controllers.EmployeeController.start()
+GET     /employee/new_customer      controllers.EmployeeController.newCustomer()
+POST    /employee/new_customer     controllers.EmployeeController.addCustomer()

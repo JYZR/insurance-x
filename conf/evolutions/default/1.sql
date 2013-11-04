@@ -28,6 +28,7 @@ create table user (
   _type                     integer(31) not null,
   username                  varchar(255) not null,
   password                  varchar(255),
+  name                      varchar(255),
   phone                     varchar(255),
   constraint pk_user primary key (username))
 ;

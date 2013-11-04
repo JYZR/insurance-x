@@ -1,12 +1,15 @@
 package controllers;
 
+import controllers.actions.DetectUser;
+import controllers.authentication.*;
 import play.mvc.*;
 import play.mvc.Security.Authenticated;
 import play.data.*;
 import models.*;
 import views.html.*;
 
-@Authenticated(Secured.class)
+@With(DetectUser.class)
+@Authenticated(UserAuthenticator.class)
 public class TaskController extends Controller {
 
 	static Form<Task> taskForm = Form.form(Task.class);
