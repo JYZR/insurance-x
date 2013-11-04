@@ -3,6 +3,7 @@ package controllers;
 import controllers.actions.DetectUser;
 import models.User;
 import play.data.*;
+import play.data.validation.Constraints.Required;
 import play.mvc.*;
 import views.html.*;
 
@@ -14,7 +15,7 @@ public class LoginController extends Controller {
 	public static Result login() {
 		if (DetectUser.isPresent(ctx()))
 			return redirect(routes.Application.index());
-		return ok(main.render(null, loginForm, index.render()));
+		return ok(main.render(null, null, index.render()));
 	}
 
 	public static Result authenticate() {
@@ -36,7 +37,9 @@ public class LoginController extends Controller {
 
 	public static class Login {
 
+		@Required
 		public String username;
+		@Required
 		public String password;
 
 		public String validate() {

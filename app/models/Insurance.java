@@ -1,5 +1,7 @@
 package models;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -11,7 +13,7 @@ public class Insurance extends Model {
 	@Id
 	public Long id;
 	@ManyToOne(optional = false)
-	public User customer;
+	public CustomerUser customer;
 	@NotNull
 	public InsuranceLevel level;
 
@@ -29,6 +31,10 @@ public class Insurance extends Model {
 
 	public static Insurance fetch(Long id) {
 		return find.byId(id);
+	}
+	
+	public static List<Insurance> all() {
+		return find.all();
 	}
 
 	public static void create(Insurance insurance) {

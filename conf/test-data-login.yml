@@ -1,0 +1,6 @@
+- !!models.EmployeeUser
+    username:   bobby
+    password:   secret
+- !!models.CustomerUser
+    username:   ziggy
+    password:   secret

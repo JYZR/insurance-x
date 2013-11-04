@@ -15,14 +15,18 @@ import play.db.ebean.*;
 @DiscriminatorValue(User.USER)
 public class User extends Model {
 
+	@Required
+	public String name;
 	@Id
 	@Required
 	public String username;
+	@Required
 	public String password;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	public List<Task> tasks;
 
-	public User(String username, String password) {
+	public User(String name, String username, String password) {
+		this.name = name;
 		this.username = username;
 		this.password = password;
 	}

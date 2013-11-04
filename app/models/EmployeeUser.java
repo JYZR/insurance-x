@@ -9,8 +9,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue(User.EMPLOYEE)
 public class EmployeeUser extends User {
 
-	public EmployeeUser(String username, String password) {
-		super(username, password);
+	public EmployeeUser(String name, String username, String password) {
+		super(name, username, password);
 	}
 
 	/*
@@ -18,8 +18,8 @@ public class EmployeeUser extends User {
 	 */
 
 	public static Finder<String, EmployeeUser> find = new Finder<String, EmployeeUser>(
-			String.class, EmployeeUser.class);
-
+			String.class, EmployeeUser.class); 
+	
 	public static List<EmployeeUser> allEmployees() {
 		return find.all();
 	}

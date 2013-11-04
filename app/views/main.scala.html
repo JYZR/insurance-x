@@ -38,7 +38,8 @@
 							<button type="submit" class="btn btn-warning navbar-right">Sign out</button>
 						}
 						<p class="navbar-text navbar-right">Signed in as @username</p>
-					} else { @if(form != null) {
+					} else {
+						@if(form != null) { form = LoginController.loginForm }
 						@helper.form(routes.LoginController.authenticate, args = 'class -> "navbar-form navbar-right") {
 							<div class="form-group">
 								<input type="text" name="username" placeholder="Username" class="form-control" @if(form != null) {value="@form("username").value}">
@@ -48,7 +49,7 @@
 							</div>
 							<button type="submit" class="btn btn-success">Sign in</button>
 						}
-					} }
+					}
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="@routes.TaskController.tasks">Tasks</a></li>
 						<li class="dropdown">
@@ -63,10 +64,10 @@
 			</div>
 		</div>
 		<div id="content" class="container">
-			@if(form != null && form.hasGlobalErrors) {
+			@if(form != null && form.hasErrors) {
 				<div class="alert alert-warning alert-dismissable alert-above-jumbotron">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					<strong>Problems!</strong> Wrong combination of username and password. 
+					<strong>Problems!</strong> Bad combination of username and password. 
 				</div>
 			}
 			@if(flash.contains("success")) {
