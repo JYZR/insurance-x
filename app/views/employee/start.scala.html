@@ -1,11 +1,12 @@
 @()
-
-	<div class="left-menu col-md-3">
-		<div class=" list-group">
-			<a href="@routes.EmployeeController.newCustomer()" class="list-group-item">New customer</a>
-			<a href="#" class="list-group-item">Mumbo jumbo</a>
-			<a href="#" class="list-group-item">Mumbo jumbo</a>
-			<a href="#" class="list-group-item">Mumbo jumbo</a>
-			<a href="#" class="list-group-item">Mumbo jumbo</a>
+	<div class="row">
+		<div class="left-menu col-md-3">
+			<div class=" list-group">
+				<a href="@routes.EmployeeController.getCustomers()" class="list-group-item">Customers<span class="badge">@CustomerUser.count()</span></a>
+				<a href="#" class="list-group-item">Mumbo jumbo</a>
+				<a href="#" class="list-group-item">Mumbo jumbo</a>
+				<a href="#" class="list-group-item">Mumbo jumbo</a>
+				<a href="#" class="list-group-item">Mumbo jumbo</a>
+			</div>
 		</div>
 	</div>

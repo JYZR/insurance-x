@@ -17,7 +17,7 @@ public class CustomerUserTest extends WithApplication {
 		CustomerUser bobby = CustomerUser.fetch("bobby");
 		assertNotNull(bobby);
 		assertEquals("Bobby", bobby.name);
-		assertEquals("12345", bobby.getPhone());
+		assertEquals("12345", bobby.phone);
 		assertEquals("bobby", bobby.username);
 		assertEquals("pwd", bobby.password);
 	}

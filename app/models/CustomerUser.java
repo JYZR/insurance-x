@@ -8,7 +8,7 @@ import javax.persistence.*;
 @DiscriminatorValue(User.CUSTOMER)
 public class CustomerUser extends User {
 
-	private String phone;
+	public String phone;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
 	public List<Insurance> insurances;
 
@@ -21,13 +21,13 @@ public class CustomerUser extends User {
 		this.phone = phone;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+//	public String getPhone() {
+//		return phone;
+//	}
+//
+//	public void setPhone(String phone) {
+//		this.phone = phone;
+//	}
 
 	/*
 	 * Static methods
@@ -42,5 +42,9 @@ public class CustomerUser extends User {
 
 	public static CustomerUser fetch(String username) {
 		return find.byId(username);
+	}
+	
+	public static int count() {
+		return find.findRowCount();
 	}
 }

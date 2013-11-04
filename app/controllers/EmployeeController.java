@@ -14,24 +14,43 @@ public class EmployeeController extends Controller {
 
 	static Form<CustomerUser> customerForm = Form.form(CustomerUser.class);
 
-	public static Result start() {
+	public static Result index() {
 		return ok(main.render(null, null, views.html.employee.start.render()));
 	}
 
-	public static Result newCustomer() {
-		return ok(main.render(null, null, views.html.employee.new_customer.render(customerForm)));
+	public static Result getCustomers() {
+		return ok(main.render(null, null,
+				views.html.employee.customers.render(customerForm, CustomerUser.allCustomers())));
 	}
 
-	public static Result addCustomer() {
+	public static Result postCustomers() {
 		Form<CustomerUser> filledForm = customerForm.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
-			return badRequest(main
-					.render(null, null, views.html.employee.new_customer.render(filledForm)));
+			return badRequest(main.render(null, null,
+					views.html.employee.customers.render(filledForm, CustomerUser.allCustomers())));
 		} else {
 			CustomerUser.create(filledForm.get());
 			flash("success", "The customer have been added.");
-			return created(main.render(null, null, views.html.employee.new_customer.render(customerForm)));
+			return created(main
+					.render(null,
+							null,
+							views.html.employee.customers.render(customerForm,
+									CustomerUser.allCustomers())));
 		}
+	}
+
+	public static Result postCustomersDelete(String username) {
+		CustomerUser customer = CustomerUser.fetch(username);
+		if (customer == null) {
+			return badRequest(main
+					.render(null,
+							null,
+							views.html.employee.customers.render(customerForm,
+									CustomerUser.allCustomers())));
+		}
+		customer.delete();
+		flash("success", "The customer have been deleted.");
+		return getCustomers();
 	}
 }

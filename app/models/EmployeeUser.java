@@ -27,4 +27,8 @@ public class EmployeeUser extends User {
 	public static EmployeeUser fetch(String username) {
 		return find.byId(username);
 	}
+	
+	public static int count() {
+		return find.findRowCount();
+	}
 }

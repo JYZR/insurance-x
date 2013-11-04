@@ -65,5 +65,8 @@ public class User extends Model {
 	public static boolean isEmployee(Context ctx) {
 		return ctx.args.get("type") == "employee";
 	}
-
+	
+	public static int count() {
+		return find.findRowCount();
+	}
 }

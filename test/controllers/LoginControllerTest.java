@@ -40,21 +40,21 @@ public class LoginControllerTest extends WithApplication {
 
 	@Test
 	public void authenticated() {
-		Result result = callAction(controllers.routes.ref.EmployeeController.start(), fakeRequest()
+		Result result = callAction(controllers.routes.ref.EmployeeController.index(), fakeRequest()
 				.withSession("username", "bobby"));
 		assertEquals(200, status(result));
 	}
 
 	@Test
 	public void notAuthenticated() {
-		Result result = callAction(controllers.routes.ref.EmployeeController.start(), fakeRequest());
+		Result result = callAction(controllers.routes.ref.EmployeeController.index(), fakeRequest());
 		assertEquals(303, status(result));
 		assertEquals("/login", header("Location", result));
 	}
 
 	@Test
 	public void notAuthenticatedCustomer() {
-		Result result = callAction(controllers.routes.ref.EmployeeController.start(), fakeRequest()
+		Result result = callAction(controllers.routes.ref.EmployeeController.index(), fakeRequest()
 				.withSession("username", "ziggy"));
 		assertEquals(303, status(result));
 		assertEquals("/login", header("Location", result));

@@ -3,29 +3,30 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
-GET     /welcome                    controllers.Application.welcome()
+GET     /                                    controllers.Application.index()
+GET     /welcome                             controllers.Application.welcome()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                        controllers.Assets.at(path="/public", file)
 
 # Login
-GET     /login                      controllers.LoginController.login()
-POST    /login                      controllers.LoginController.authenticate()
-POST    /logout                     controllers.LoginController.logout()
+GET     /login                               controllers.LoginController.login()
+POST    /login                               controllers.LoginController.authenticate()
+POST    /logout                              controllers.LoginController.logout()
 
 # Tasks
-GET     /tasks                      controllers.TaskController.tasks()
-POST    /tasks                      controllers.TaskController.newTask()
-POST    /tasks/:id/delete           controllers.TaskController.deleteTask(id: Long)
+GET     /tasks                               controllers.TaskController.tasks()
+POST    /tasks                               controllers.TaskController.newTask()
+POST    /tasks/:id/delete                    controllers.TaskController.deleteTask(id: Long)
 
 # User management
-GET     /users                      controllers.UserController.showForm()
-POST    /users                      controllers.UserController.newUser()
-POST    /users/delete               controllers.UserController.deleteAccount()
-POST    /users/:username/delete     controllers.UserController.removeUser(username: String)
+GET     /users                               controllers.UserController.showForm()
+POST    /users                               controllers.UserController.newUser()
+POST    /users/delete                        controllers.UserController.deleteAccount()
+POST    /users/:username/delete              controllers.UserController.removeUser(username: String)
 
 # Employee
-GET     /employee/start             controllers.EmployeeController.start()
-GET     /employee/new_customer      controllers.EmployeeController.newCustomer()
-POST    /employee/new_customer     controllers.EmployeeController.addCustomer()
+GET     /employee                            controllers.EmployeeController.index()
+GET     /employee/customers                  controllers.EmployeeController.getCustomers()
+POST    /employee/customers                  controllers.EmployeeController.postCustomers()
+POST    /employee/customers/:username/delete controllers.EmployeeController.postCustomersDelete(username: String)

@@ -1,0 +1,60 @@
+@(customerForm: play.data.Form[CustomerUser], customers: List[CustomerUser])
+
+@import helper._
+@implicitField = @{ helper.FieldConstructor(views.html.fieldConstructors.ixFieldConstructor.f) }
+
+	<div class="row">
+		<div class="left-menu col-md-3">
+			<div class="list-group">
+				<a href="@routes.EmployeeController.getCustomers()" class="list-group-item active">Customers<span class="badge">@customers.size()</span></a>
+				<a href="#" class="list-group-item">Mumbo jumbo</a>
+				<a href="#" class="list-group-item">Mumbo jumbo</a>
+				<a href="#" class="list-group-item">Mumbo jumbo</a>
+				<a href="#" class="list-group-item">Mumbo jumbo</a>
+			</div>
+		</div>
+		
+		<div class="col-md-9">
+			@form(action = routes.EmployeeController.postCustomers, 'class -> "form-horizontal", 'role -> "form") {
+		
+				@inputText(customerForm("name"), 'class -> "form-control")
+				
+				@inputText(customerForm("phone"), 'class -> "form-control")
+				
+				@inputText(customerForm("username"), 'class -> "form-control")
+		
+				@inputText(customerForm("password"), 'class -> "form-control")
+				
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button type="submit" class="btn btn-default">Add customer</button>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-hover">
+				<tr>
+					<th>Name</th>
+					<th>Phone</th>
+					<th>Username</th>
+					<th></th>
+				</tr>
+				@for(customer <- customers) {
+					<tr>
+						<td>@customer.name</td>
+						<td>@customer.phone</td>
+						<td>@customer.username</td>
+						<td>
+							@form(routes.EmployeeController.postCustomersDelete(customer.username)) {
+								<button type="submit" class="close" aria-hidden="true">&times;</button>
+							}
+						</td>
+					</tr>
+				}
+			</table>
+		</div>
+	</div>

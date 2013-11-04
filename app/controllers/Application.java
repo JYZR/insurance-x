@@ -14,7 +14,7 @@ public class Application extends Controller {
 	@Authenticated(UserAuthenticator.class)
 	public static Result index() {
 		if (User.isEmployee(ctx()))
-			return redirect(routes.EmployeeController.start());
+			return redirect(routes.EmployeeController.index());
 		return redirect(routes.TaskController.tasks());
 	}
 
