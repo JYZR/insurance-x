@@ -18,9 +18,9 @@ To run the tests execute `play test`. If some tests failed, one could execute on
 ## Initial data
 
 **Employee**:  
-Username: jimmy 
-Password: pwd
+Username: `jimmy`  
+Password: `pwd`
 
 **Customer**:  
-Username: kungen  
-Password: pwd
+Username: `kungen`  
+Password: `pwd`
