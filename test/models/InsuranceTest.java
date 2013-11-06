@@ -18,7 +18,7 @@ public class InsuranceTest extends WithApplication {
 	public void createAndFetch() {
 		new CustomerUser("Bobby", "12345", "bobby", "pwd").save();
 		CustomerUser bobby = CustomerUser.fetch("bobby");
-		Insurance in1 = new Insurance(bobby, InsuranceLevel.Basic);
+		Insurance in1 = new Insurance(bobby, InsuranceLevel.Basic, "AAA111");
 		in1.save();
 		Insurance in2 = Insurance.fetch(in1.id);
 		assertNotNull(in2);
@@ -30,8 +30,8 @@ public class InsuranceTest extends WithApplication {
 	public void createAndCount() {
 		new CustomerUser("Bobby", "12345", "bobby", "pwd").save();
 		CustomerUser bobby = CustomerUser.fetch("bobby");
-		new Insurance(bobby, InsuranceLevel.Basic).save();
-		new Insurance(bobby, InsuranceLevel.Full).save();
+		new Insurance(bobby, InsuranceLevel.Basic, "AAA111").save();
+		new Insurance(bobby, InsuranceLevel.Full, "ZZZ999").save();
 		assertEquals(2, Insurance.all().size());
 	}
 
@@ -39,8 +39,8 @@ public class InsuranceTest extends WithApplication {
 	public void createAndCountAfterRemovalOfUser() {
 		new CustomerUser("Bobby", "12345", "bobby", "pwd").save();
 		CustomerUser bobby = CustomerUser.fetch("bobby");
-		new Insurance(bobby, InsuranceLevel.Basic).save();
-		new Insurance(bobby, InsuranceLevel.Full).save();
+		new Insurance(bobby, InsuranceLevel.Basic, "AAA111").save();
+		new Insurance(bobby, InsuranceLevel.Full, "ZZZ999").save();
 		bobby.delete();
 		assertEquals(0, Insurance.all().size());
 	}

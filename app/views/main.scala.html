@@ -2,9 +2,7 @@
 
 @import controllers.actions.DetectUser;
 
-@username() = {
-	@session().get("username")
-}
+@name() = {@User.fetch(ctx()).name}
 
 <!DOCTYPE html>
 <html>
@@ -31,32 +29,37 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					@if(DetectUser.isPresent(ctx())) {
-						@helper.form(routes.UserController.deleteAccount, args = 'class -> "navbar-form navbar-right") {
+						@helper.form(routes.AdministrationController.deleteAccount, args = 'class -> "navbar-form navbar-right") {
 							<button type="submit" class="btn btn-danger navbar-right">Delete account</button>
 						}
 						@helper.form(routes.LoginController.logout, args = 'class -> "navbar-form navbar-right") {
 							<button type="submit" class="btn btn-warning navbar-right">Sign out</button>
 						}
-						<p class="navbar-text navbar-right">Signed in as @username</p>
+						<p class="navbar-text navbar-right">Signed in as @name</p>
 					} else {
 						@if(form != null) { form = LoginController.loginForm }
 						@helper.form(routes.LoginController.authenticate, args = 'class -> "navbar-form navbar-right") {
 							<div class="form-group">
-								<input type="text" name="username" placeholder="Username" class="form-control" @if(form != null) {value="@form("username").value}">
+								<input id="login-username" type="text" name="username" placeholder="Username" class="form-control" value="@if(form != null) {@form("username").value}">
 							</div>
 							<div class="form-group">
-								<input type="password" name="password" placeholder="Password" class="form-control">
+								<input id="login-password" type="password" name="password" placeholder="Password" class="form-control" value="@if(form != null) {@form("password").value}">
 							</div>
-							<button type="submit" class="btn btn-success">Sign in</button>
+							<button id="login-button" type="submit" class="btn btn-success">Sign in</button>
 						}
 					}
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="@routes.TaskController.tasks">Tasks</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li><a href="@routes.UserController.showForm">Users</a></li>
-								<!-- <li class="divider"></li> -->
+								<li><a href="@routes.AdministrationController.showForm">Employees</a></li>
+								<li><a href="@routes.TaskController.tasks">Tasks</a></li>
+								<li class="divider"></li>
+								<li>
+									@helper.form(routes.AdministrationController.resetDatabase, 'onsubmit -> "return confirm('Are you sure you want to reset the database?');") {
+									<button type="submit" class="btn btn-link">Reset database</button>
+									}
+								</li>
 							</ul>
 						</li>
 					</ul>

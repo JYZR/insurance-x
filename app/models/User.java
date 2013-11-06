@@ -35,7 +35,6 @@ public class User extends Model {
 		return getClass().getSimpleName();
 	}
 
-
 	/*
 	 * Static methods
 	 */
@@ -65,8 +64,16 @@ public class User extends Model {
 	public static boolean isEmployee(Context ctx) {
 		return ctx.args.get("type") == "employee";
 	}
-	
+
+	public static boolean isCustomer(Context ctx) {
+		return ctx.args.get("type") == "customer";
+	}
+
 	public static int count() {
 		return find.findRowCount();
+	}
+
+	public static User fetch(Context ctx) {
+		return (User) ctx.args.get("user");
 	}
 }

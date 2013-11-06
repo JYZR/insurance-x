@@ -2,31 +2,44 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                                    controllers.Application.index()
-GET     /welcome                             controllers.Application.welcome()
+# Start page
+GET     /                              controllers.Application.index()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                        controllers.Assets.at(path="/public", file)
+GET     /assets/*file                  controllers.Assets.at(path="/public", file)
 
 # Login
-GET     /login                               controllers.LoginController.login()
-POST    /login                               controllers.LoginController.authenticate()
-POST    /logout                              controllers.LoginController.logout()
+GET     /login                         controllers.LoginController.login()
+POST    /login                         controllers.LoginController.authenticate()
+POST    /logout                        controllers.LoginController.logout()
+
+# Customers
+GET     /customers                     controllers.CustomerController.get()
+POST    /customers                     controllers.CustomerController.post()
+POST    /customers/:username/delete    controllers.CustomerController.postItemDelete(username: String)
+
+#Insurances
+GET     /insurances                    controllers.InsuranceController.get()
+POST    /insurances                    controllers.InsuranceController.post()
+GET     /insurance/:id                 controllers.InsuranceController.getItem(id: Long)
+POST    /insurance/:id                 controllers.InsuranceController.postItem(id: Long)
+POST    /insurances/:id/delete         controllers.InsuranceController.postItemDelete(id: Long)
+
+#Claims
+GET     /claims                        controllers.ClaimController.get()
+POST    /claims                        controllers.ClaimController.post()
+GET     /claims/:id                    controllers.ClaimController.getItem(id: Long)
+POST    /claims/:id                    controllers.ClaimController.postItem(id: Long)
+POST    /claims/:id/delete             controllers.ClaimController.postItemDelete(id: Long)
+
+# Administration
+GET     /admin/users                   controllers.AdministrationController.showForm()
+POST    /admin/users                   controllers.AdministrationController.newUser()
+POST    /admin/users/delete            controllers.AdministrationController.deleteAccount()
+POST    /admin/users/:username/delete  controllers.AdministrationController.removeUser(username: String)
+POST    /admin/reset                   controllers.AdministrationController.resetDatabase
 
 # Tasks
-GET     /tasks                               controllers.TaskController.tasks()
-POST    /tasks                               controllers.TaskController.newTask()
-POST    /tasks/:id/delete                    controllers.TaskController.deleteTask(id: Long)
-
-# User management
-GET     /users                               controllers.UserController.showForm()
-POST    /users                               controllers.UserController.newUser()
-POST    /users/delete                        controllers.UserController.deleteAccount()
-POST    /users/:username/delete              controllers.UserController.removeUser(username: String)
-
-# Employee
-GET     /employee                            controllers.EmployeeController.index()
-GET     /employee/customers                  controllers.EmployeeController.getCustomers()
-POST    /employee/customers                  controllers.EmployeeController.postCustomers()
-POST    /employee/customers/:username/delete controllers.EmployeeController.postCustomersDelete(username: String)
+GET     /tasks                         controllers.TaskController.tasks()
+POST    /tasks                         controllers.TaskController.newTask()
+POST    /tasks/:id/delete              controllers.TaskController.deleteTask(id: Long)

@@ -1,8 +1,12 @@
 package models;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.*;
+
+import play.mvc.Http.Context;
 
 @Entity
 @DiscriminatorValue(User.CUSTOMER)
@@ -21,14 +25,6 @@ public class CustomerUser extends User {
 		this.phone = phone;
 	}
 
-//	public String getPhone() {
-//		return phone;
-//	}
-//
-//	public void setPhone(String phone) {
-//		this.phone = phone;
-//	}
-
 	/*
 	 * Static methods
 	 */
@@ -43,8 +39,29 @@ public class CustomerUser extends User {
 	public static CustomerUser fetch(String username) {
 		return find.byId(username);
 	}
-	
+
 	public static int count() {
 		return find.findRowCount();
+	}
+
+	public static Map<String, String> options() {
+		HashMap<String, String> options = new HashMap<String, String>();
+		for (CustomerUser cUser : allCustomers()) {
+			options.put(cUser.username, cUser.name);
+		}
+		return options;
+	}
+
+	public static Map<String, String> options(Context ctx) {
+		if (User.isEmployee(ctx))
+			return options();
+		HashMap<String, String> options = new HashMap<String, String>();
+		CustomerUser cUser = fetch(ctx);
+		options.put(cUser.username, cUser.name);
+		return options;
+	}
+
+	public static CustomerUser fetch(Context ctx) {
+		return (CustomerUser) ctx.args.get("user");
 	}
 }

@@ -7,7 +7,7 @@ import java.util.*;
 public class Global extends GlobalSettings {
 
 	public void onStart(Application app) {
-		// If there yet are no users
+		// Load user when the application starts
 		if (!app.isTest() && !app.isProd() && User.find.findRowCount() == 0) {
 			Ebean.save((List<?>) Yaml.load("initial-data.yml"));
 		}

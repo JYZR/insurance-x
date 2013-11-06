@@ -1,0 +1,17 @@
+@(active: String = "")
+
+@customersText = {Customers}
+@insurancesText = @{ if (User.isEmployee(ctx())) {"Insurances"} else {"My insurances"} }
+@claimsText     = @{ if (User.isEmployee(ctx())) {"Claims"}     else {"My claims"} }
+
+@customersBadge = {@CustomerUser.count()}
+@insurancesBadge = { @if(User.isEmployee(ctx())) {@Insurance.count()} else {@Insurance.count(CustomerUser.fetch(ctx()))} }
+@claimsBadge     = { @if(User.isEmployee(ctx())) {@Claim.count()}     else {@Claim.count(CustomerUser.fetch(ctx()))} }   
+
+	<div class="left-menu col-md-3">
+		<div class="list-group">
+			@if(User.isEmployee(ctx())) {<a id="nav-customers" href="@routes.CustomerController.get()" class="list-group-item @if(active == "customers"){active}">@customersText<span class="badge">@customersBadge</span></a>}
+			<a id="nav-insurances" href="@routes.InsuranceController.get()" class="list-group-item @if(active == "insurances"){active}">@insurancesText<span class="badge">@insurancesBadge</span></a>
+			<a id="nav-claims" href="@routes.ClaimController.get()" class="list-group-item @if(active == "claims"){active}">@claimsText<span class="badge">@claimsBadge</span></a>
+		</div>
+	</div>

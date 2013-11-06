@@ -9,7 +9,7 @@ public class UserAuthenticator extends Security.Authenticator {
 
 	/*
 	 * DetectUser should always be called before this is executed
-	 * 	
+	 * 
 	 * Example for how to create annotations:
 	 * 
 	 * @With(DetectUser.class)

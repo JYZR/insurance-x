@@ -1,0 +1,70 @@
+@(claimForm: play.data.Form[Claim], claims: List[Claim], update: Boolean = false)
+
+@button_text = @{ if (update == false) {"Add claim"} else {"Update claim"} }
+
+@import helper._
+@implicitField = @{ helper.FieldConstructor(views.html.fieldConstructors.ixFieldConstructor.f) }
+
+	<div class="row">
+		
+		@views.html.menu.render(active = "claims")
+		
+		<div class="col-md-9">
+			@form(
+				action = 
+					if (update == false) {routes.ClaimController.post} 
+					else {routes.ClaimController.postItem(claimForm.get().id)} , 
+				'class -> "form-horizontal", 
+				'role -> "form"
+			) {
+		
+				@select(
+					claimForm("insurance.id"), 
+					options = options(Insurance.options(ctx())), 
+					'_label -> "Registration number", 
+					'_default -> "-- Choose registration number --",
+					'class -> "form-control"
+				)
+
+				@textarea(
+					claimForm("damage"), 
+					'rows -> 4, 
+					'_label -> "Damage description", 
+					'class -> "form-control"
+					) 
+				
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button id="claims-button" type="submit" class="btn btn-default">@button_text</button>
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-hover">
+				<tr>
+					<th>Registration number</th>
+					<th>Damage description</th>
+					<th>Customer</th>
+					<th></th>
+					<th></th>
+				</tr>
+				@for(claim <- claims) {
+					<tr>
+						<td>@claim.insurance.regNumber</td>
+						<td>@claim.damage</td>
+						<td>@claim.insurance.customer.name</td>
+						<td><a href="@routes.ClaimController.getItem(claim.id)">Edit <span class="glyphicon glyphicon-edit"></span></a></td>
+						<td>
+							@form(routes.ClaimController.postItemDelete(claim.id)) {
+								<button type="submit" class="close" aria-hidden="true">&times;</button>
+							}
+						</td>
+					</tr>
+				}
+			</table>
+		</div>
+	</div>

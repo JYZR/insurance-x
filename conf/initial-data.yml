@@ -1,20 +1,94 @@
+#
+# Employee users
+#
+
 - !!models.EmployeeUser
+    name:       Jimmy
     username:   jimmy
     password:   pwd
+
 - !!models.EmployeeUser
-    username:   jeppe
+    name:       Jesper
+    username:   jesper
     password:   pwd
+
+#
+# Customer users
+#
+
+- !!models.CustomerUser
+    name:       Carl Gustaf Bernadotte
+    phone:      08-123 45 67
+    username:   kungen
+    password:   pwd
+
+- !!models.CustomerUser
+    name:       Johan Bertilsson
+    phone:      08-555 55 55
+    username:   johan
+    password:   pwd
+
+#
+# Insurances
+#
+
+- !!models.Insurance
+    regNumber:  ABC123
+    level:      Basic
+    customer:
+        !!models.CustomerUser
+        username:   kungen
+
+- !!models.Insurance
+    id:         666
+    regNumber:  ZYX666
+    level:      Full
+    customer:
+        !!models.CustomerUser
+        username:   kungen
+
+- !!models.Insurance
+    id:         777
+    regNumber:  JJJ777
+    level:      Half
+    customer:
+        !!models.CustomerUser
+        username:   johan
+
+#
+# Claims
+#
+
+- !!models.Claim
+    damage: Krock i kungens kurva!
+    insurance:
+        !!models.Insurance
+        id:         666
+        regNumber:  ZYX666
+
+- !!models.Claim
+    damage: Ain't my fault!
+    insurance:
+        !!models.Insurance
+        id:         777
+        regNumber:  JJJ777
+
+#
+# Tasks
+#
 
 - !!models.Task
     label:      Buy milk!
     owner:
         !!models.User
         username:   jimmy
+
 - !!models.Task
     label:      Buy cheese!
     owner:
         !!models.User
         username:   jimmy
+
 - !!models.Task
     label:      Get a life!
     owner:
@@ -25,18 +99,10 @@
     label:      Get up!
     owner:
         !!models.User
-        username:   jeppe
+        username:   jesper
+
 - !!models.Task
     label:      Just do it!
     owner:
         !!models.User
-        username:   jeppe
-
-- !!models.CustomerUser
-    username:   carl
-    password:   pwd
-- !!models.Insurance
-    level:      Basic
-    customer:
-        !!models.CustomerUser
-        username:   carl
+        username:   jesper

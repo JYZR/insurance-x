@@ -3,18 +3,20 @@
 
 # --- !Ups
 
+create table claim (
+  id                        bigint not null,
+  insurance_id              bigint not null,
+  damage                    varchar(255) not null,
+  constraint pk_claim primary key (id))
+;
+
 create table insurance (
   id                        bigint not null,
   customer_username         varchar(255) not null,
   level                     integer not null,
+  reg_number                varchar(255),
   constraint ck_insurance_level check (level in (0,1,2)),
   constraint pk_insurance primary key (id))
-;
-
-create table project (
-  id                        bigint not null,
-  name                      varchar(255),
-  constraint pk_project primary key (id))
 ;
 
 create table task (
@@ -33,40 +35,30 @@ create table user (
   constraint pk_user primary key (username))
 ;
 
+create sequence claim_seq;
 
-create table project_user (
-  project_id                     bigint not null,
-  user_username                  varchar(255) not null,
-  constraint pk_project_user primary key (project_id, user_username))
-;
 create sequence insurance_seq;
-
-create sequence project_seq;
 
 create sequence task_seq;
 
 create sequence user_seq;
 
-alter table insurance add constraint fk_insurance_customer_1 foreign key (customer_username) references user (username) on delete restrict on update restrict;
-create index ix_insurance_customer_1 on insurance (customer_username);
-alter table task add constraint fk_task_owner_2 foreign key (owner_username) references user (username) on delete restrict on update restrict;
-create index ix_task_owner_2 on task (owner_username);
+alter table claim add constraint fk_claim_insurance_1 foreign key (insurance_id) references insurance (id) on delete restrict on update restrict;
+create index ix_claim_insurance_1 on claim (insurance_id);
+alter table insurance add constraint fk_insurance_customer_2 foreign key (customer_username) references user (username) on delete restrict on update restrict;
+create index ix_insurance_customer_2 on insurance (customer_username);
+alter table task add constraint fk_task_owner_3 foreign key (owner_username) references user (username) on delete restrict on update restrict;
+create index ix_task_owner_3 on task (owner_username);
 
 
-
-alter table project_user add constraint fk_project_user_project_01 foreign key (project_id) references project (id) on delete restrict on update restrict;
-
-alter table project_user add constraint fk_project_user_user_02 foreign key (user_username) references user (username) on delete restrict on update restrict;
 
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
+drop table if exists claim;
+
 drop table if exists insurance;
-
-drop table if exists project;
-
-drop table if exists project_user;
 
 drop table if exists task;
 
@@ -74,9 +66,9 @@ drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
-drop sequence if exists insurance_seq;
+drop sequence if exists claim_seq;
 
-drop sequence if exists project_seq;
+drop sequence if exists insurance_seq;
 
 drop sequence if exists task_seq;
 

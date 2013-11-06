@@ -2,10 +2,6 @@ body {
 	padding-top: 50px;
 }
 
-.alert-above-jumbotron {
-	margin-top: 20px;
-}
-
 .tasks-list dl dt {
 	width: 15px;
 	float: left;
@@ -18,7 +14,6 @@ body {
 #content {
 	margin-top: 20px;
 }
-
-.list-group-item.active .badge{
+.list-group-item .badge{
 	text-shadow: none;
 }

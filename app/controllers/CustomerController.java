@@ -10,47 +10,37 @@ import views.html.main;
 
 @With(DetectUser.class)
 @Authenticated(EmployeeAuthenticator.class)
-public class EmployeeController extends Controller {
+public class CustomerController extends Controller {
 
 	static Form<CustomerUser> customerForm = Form.form(CustomerUser.class);
 
-	public static Result index() {
-		return ok(main.render(null, null, views.html.employee.start.render()));
-	}
-
-	public static Result getCustomers() {
+	public static Result get() {
 		return ok(main.render(null, null,
-				views.html.employee.customers.render(customerForm, CustomerUser.allCustomers())));
+				views.html.customers.render(customerForm, CustomerUser.allCustomers())));
 	}
 
-	public static Result postCustomers() {
+	public static Result post() {
 		Form<CustomerUser> filledForm = customerForm.bindFromRequest();
 
 		if (filledForm.hasErrors()) {
 			return badRequest(main.render(null, null,
-					views.html.employee.customers.render(filledForm, CustomerUser.allCustomers())));
+					views.html.customers.render(filledForm, CustomerUser.allCustomers())));
 		} else {
 			CustomerUser.create(filledForm.get());
 			flash("success", "The customer have been added.");
-			return created(main
-					.render(null,
-							null,
-							views.html.employee.customers.render(customerForm,
-									CustomerUser.allCustomers())));
+			return created(main.render(null, null,
+					views.html.customers.render(customerForm, CustomerUser.allCustomers())));
 		}
 	}
 
-	public static Result postCustomersDelete(String username) {
+	public static Result postItemDelete(String username) {
 		CustomerUser customer = CustomerUser.fetch(username);
 		if (customer == null) {
-			return badRequest(main
-					.render(null,
-							null,
-							views.html.employee.customers.render(customerForm,
-									CustomerUser.allCustomers())));
+			return badRequest(main.render(null, null,
+					views.html.customers.render(customerForm, CustomerUser.allCustomers())));
 		}
 		customer.delete();
 		flash("success", "The customer have been deleted.");
-		return getCustomers();
+		return redirect(routes.CustomerController.get());
 	}
 }
